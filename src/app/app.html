@@ -196,7 +196,7 @@
     </div>
   </section>
 
-  <!-- GALERIA INTERATIVA COM SUPORTE A VÍDEO -->
+  <!-- GALERIA INTERATIVA COM SUPORTE A INSTAGRAM OFICIAL -->
   <section id="portfolio-section" class="portfolio-section">
     <div class="portfolio-nav">
       <h2 class="section-title">Projetos & Portfólio</h2>
@@ -209,74 +209,110 @@
     </div>
 
     <div class="portfolio-grid">
-      @for (item of filteredItems(); track item.id) {
+      @for (item of displayedItems(); track item.id) {
         <article class="portfolio-card clickable" (click)="openLightbox(item)">
           <div class="card-thumb-wrapper">
-            <img [src]="item.imageUrl" [alt]="item.title" class="card-thumb" />
+            <img [src]="item.imageUrl" [alt]="item.title" class="card-thumb" loading="lazy" />
 
-            @if (item.mediaType === 'video') {
-              <div class="video-indicator-badge">
-                <span class="play-triangle">▶</span>
-                <span>Vídeo</span>
+            @if (item.instagramUrl) {
+              <div class="card-ig-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+                <span>Oficial</span>
               </div>
             }
 
             <div class="thumb-overlay">
-              <span>{{ item.mediaType === 'video' ? 'Assistir Vídeo ▶' : 'Ver Detalhes ↗' }}</span>
+              <span>{{ item.instagramUrl ? 'Ver Detalhes & Link ↗' : 'Ver Detalhes ↗' }}</span>
             </div>
           </div>
 
           <div class="card-content">
-            <span class="card-tag">{{ item.tag }}</span>
+            <div class="card-meta-row">
+              <span class="card-tag">{{ item.tag }}</span>
+              @if (item.highlightBadge) {
+                <span class="card-highlight-pill">{{ item.highlightBadge }}</span>
+              }
+            </div>
             <h3 class="card-title">{{ item.title }}</h3>
             <p class="card-desc">{{ item.description }}</p>
           </div>
         </article>
       }
     </div>
+
+    <!-- BOTÃO CARREGAR MAIS -->
+    @if (visibleCount() < filteredItems().length) {
+      <div class="load-more-container">
+        <button type="button" class="load-more-btn" (click)="loadMore()">
+          <span>Carregar mais trabalhos ({{ filteredItems().length - visibleCount() }})</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+          </svg>
+        </button>
+      </div>
+    }
   </section>
 
-  <!-- MODAL 1: LIGHTBOX COM SUPORTE A VÍDEO 9:16 OU IMAGEM -->
+  <!-- MODAL 1: LIGHTBOX COM SUPORTE A VÍDEO OU IMAGEM -->
   @if (selectedItem(); as item) {
     <div class="modal-backdrop" (click)="closeLightbox()">
       <div class="modal-card" [class.video-modal]="item.mediaType === 'video'" (click)="$event.stopPropagation()">
         <button class="modal-close-btn" (click)="closeLightbox()" aria-label="Fechar">✕</button>
 
         @if (item.mediaType === 'video' && item.videoUrl) {
-          <!-- PLAYER DE VÍDEO CINEMATOGRÁFICO -->
           <div class="modal-media-wrapper video-container">
             <video 
               [src]="item.videoUrl" 
               controls 
               autoplay 
-              muted
               playsinline 
               loop
+              muted
               class="modal-video-element"
             ></video>
           </div>
         } @else if (item.imageUrl) {
-          <!-- IMAGEM PADRÃO -->
           <div class="modal-media-wrapper">
             <img [src]="item.imageUrl" [alt]="item.title" class="modal-media" />
           </div>
         }
 
         <div class="modal-body">
-          <span class="modal-badge">{{ item.tag }}</span>
+          <div class="modal-badge-row">
+            <span class="modal-badge">{{ item.tag }}</span>
+            @if (item.highlightBadge) {
+              <span class="modal-highlight-badge">★ {{ item.highlightBadge }}</span>
+            }
+          </div>
+
           <h2 class="modal-title">{{ item.title }}</h2>
           <p class="modal-desc">{{ item.description }}</p>
 
           @if (item.scope) {
             <div class="modal-scope-box">
-              <span class="scope-label">Escopo do Trabalho:</span>
+              <span class="scope-label">Âmbito do Trabalho:</span>
               <span class="scope-value">{{ item.scope }}</span>
             </div>
           }
 
+          @if (item.instagramUrl) {
+            <a [href]="item.instagramUrl" target="_blank" rel="noopener noreferrer" class="instagram-post-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+              <span>Ver Publicação Original no Instagram ↗</span>
+            </a>
+          }
+
           <div class="modal-actions">
             <button class="modal-cta-btn" (click)="askAboutProject(item)">
-              <span>Quero uma proposta similar</span>
+              <span>Quero uma proposta semelhante</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
@@ -346,17 +382,16 @@
           </div>
 
           <div class="modal-actions">
-            <a 
-              [href]="generatedWhatsAppUrl()" 
-              target="_blank" 
+            <button 
+              type="button" 
               class="modal-cta-btn whatsapp-submit-btn"
-              (click)="closeQuoteModal()"
+              (click)="sendQuoteWhatsApp()"
             >
               <span>Enviar via WhatsApp</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
-            </a>
+            </button>
           </div>
         </div>
       </div>
