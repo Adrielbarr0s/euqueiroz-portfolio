@@ -149,8 +149,8 @@ export class App {
       title: 'Registo Arquitetónico de Obras Públicas',
       entity: 'Infraestrutura & Governo',
       tag: 'Documentação Fotográfica',
-      description: 'Documentação rigorosa de infraestrutura pública. Fotografias que foram formalmente reconhecidas e elogiadas pelo Governador Rafael Fonteles.',
-      highlight: 'Elogio do Governador Rafael Fonteles',
+      description: 'Documentação rigorosa de infraestrutura pública e arquitetura com iluminação natural precisa e enquadramento técnico.',
+      highlight: 'Destaque Estadual',
       instagramUrl: 'https://www.instagram.com/p/DSDkkl6Em9W/?img_index=11&rpxt=Mjl1OXp5ZTl3M2Q0',
       scope: 'Fotografia de Infraestrutura · Tratamento Fino de Luz · Divulgação Oficial'
     }
