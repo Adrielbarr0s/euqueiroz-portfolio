@@ -164,7 +164,7 @@ export class App {
       tag: 'Cobertura Audiovisual',
       description: 'Captação noturna com foco no movimento, cores vivas de palco e ritmo festivo comunitário.',
       videoUrl: '/portfolio/video-arraia.mp4',
-      posterUrl: '/portfolio/foto-11.jpeg',
+      posterUrl: '', // Deixa vazio ou coloca a capa real do vídeo quando tiver
       scope: 'Captação 4K Noturna · Edição com Batida Musical · Color Grading Vibrante'
     },
     {
@@ -173,7 +173,7 @@ export class App {
       tag: 'Produção Regional',
       description: 'Planos abertos, texturas naturais e narrativa cinematográfica para valorização cultural e de marca.',
       videoUrl: '/portfolio/video-fronteiras.mp4',
-      posterUrl: '/portfolio/foto-20.jpeg',
+      posterUrl: '', // Deixa vazio ou coloca a capa real do vídeo quando tiver
       scope: 'Direção de Fotografia · Planos Abertos 4K · Sound Design Imersivo'
     }
   ];
