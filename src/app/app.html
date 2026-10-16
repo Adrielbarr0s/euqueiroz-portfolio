@@ -33,14 +33,10 @@
     </div>
   </header>
 
-  <!-- CARTÃO PRINCIPAL REFINADO -->
+  <!-- CARTÃO PRINCIPAL COM COMPARADOR DE COR -->
   <section class="hero-card">
-    
-    <!-- COMPARADOR COM ESTILO VISOR DE CINEMA -->
     <div class="slider-wrapper">
       <div class="comparison-container camera-frame">
-        
-        <!-- Detalhes de Visor Cinematográfico -->
         <div class="camera-hud-top">
           <span class="hud-rec"><span class="rec-dot"></span>REC</span>
           <span class="hud-res">4K · 24FPS</span>
@@ -73,7 +69,6 @@
           class="slider-range-control"
         />
 
-        <!-- Marcadores nos 4 cantos da lente -->
         <div class="corner-bracket top-left"></div>
         <div class="corner-bracket top-right"></div>
         <div class="corner-bracket bottom-left"></div>
@@ -83,9 +78,7 @@
       <span class="slider-hint">Arraste a barra para ver o grading</span>
     </div>
 
-    <!-- INFORMAÇÕES DE ALTA HIERARQUIA -->
     <div class="hero-info">
-      
       <div class="hero-badge-row">
         <span class="pill-badge">Comunicação · Social PRO · Audiovisual</span>
         <span class="location-pill">📍 Atendimento Nacional</span>
@@ -108,18 +101,14 @@
           </svg>
         </button>
 
-        <button type="button" class="secondary-cta-btn" (click)="scrollToPortfolio()">
-          <span>Ver Trabalhos</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 5v14M5 12l7 7 7-7"/>
-          </svg>
+        <button type="button" class="secondary-cta-btn" (click)="scrollToSection('sec-institucional')">
+          <span>Ver Trabalhos ↓</span>
         </button>
       </div>
-
     </div>
   </section>
 
-  <!-- BARRA DE DESTAQUES & MÉTRICAS (AUTORIDADE) -->
+  <!-- BARRA DE DESTAQUES & MÉTRICAS -->
   <section class="stats-bar">
     <div class="stat-item">
       <span class="stat-title">Institucional</span>
@@ -137,7 +126,7 @@
     </div>
   </section>
 
-  <!-- SEÇÃO DE SERVIÇOS COM ACORDEÃO EXPLICATIVO -->
+  <!-- SEÇÃO DE SERVIÇOS COM ACORDEÃO -->
   <section class="services-section">
     <div class="section-header-row">
       <h2 class="section-title">Soluções Especializadas</h2>
@@ -147,7 +136,6 @@
     <div class="services-accordion-list">
       @for (serv of services; track serv.id) {
         <div class="service-accordion-card" [class.expanded]="expandedService() === serv.id">
-          
           <button 
             type="button" 
             class="service-card-top" 
@@ -190,65 +178,123 @@
               </button>
             </div>
           }
-
         </div>
       }
     </div>
   </section>
 
-  <!-- GALERIA INTERATIVA COM SUPORTE A INSTAGRAM OFICIAL -->
-  <section id="portfolio-section" class="portfolio-section">
-    <div class="portfolio-nav">
-      <h2 class="section-title">Projetos & Portfólio</h2>
-      <div class="filter-pills">
-        <button [class.active]="activeFilter() === 'todos'" (click)="setFilter('todos')">Todos</button>
-        <button [class.active]="activeFilter() === 'institucional'" (click)="setFilter('institucional')">Institucional</button>
-        <button [class.active]="activeFilter() === 'socialpro'" (click)="setFilter('socialpro')">Social PRO</button>
-        <button [class.active]="activeFilter() === 'audiovisual'" (click)="setFilter('audiovisual')">Audiovisual</button>
-      </div>
+  <!-- ========================================== -->
+  <!-- 1. BLOCO DEDICADO: COMUNICAÇÃO INSTITUCIONAL -->
+  <!-- ========================================== -->
+  <section id="sec-institucional" class="section-block">
+    <div class="block-header">
+      <div class="block-badge-tag institutional-tag">Projetos Oficiais</div>
+      <h2 class="block-title">Comunicação Institucional & Governo</h2>
+      <p class="block-subtitle">
+        Produção de narrativa oficial para entidades públicas, secretarias e registos governamentais reconhecidos.
+      </p>
     </div>
 
-    <div class="portfolio-grid">
-      @for (item of displayedItems(); track item.id) {
-        <article class="portfolio-card clickable" (click)="openLightbox(item)">
-          <div class="card-thumb-wrapper">
-            <img [src]="item.imageUrl" [alt]="item.title" class="card-thumb" loading="lazy" />
-
-            @if (item.instagramUrl) {
-              <div class="card-ig-badge">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                </svg>
-                <span>Oficial</span>
-              </div>
-            }
-
-            <div class="thumb-overlay">
-              <span>{{ item.instagramUrl ? 'Ver Detalhes & Link ↗' : 'Ver Detalhes ↗' }}</span>
-            </div>
+    <div class="institutional-cards-grid">
+      @for (item of institutionalProjects; track item.id) {
+        <article class="inst-project-card">
+          <div class="inst-card-top">
+            <span class="inst-highlight-badge">★ {{ item.highlight }}</span>
+            <span class="inst-type-badge">{{ item.tag }}</span>
           </div>
 
-          <div class="card-content">
-            <div class="card-meta-row">
-              <span class="card-tag">{{ item.tag }}</span>
-              @if (item.highlightBadge) {
-                <span class="card-highlight-pill">{{ item.highlightBadge }}</span>
-              }
+          <h3 class="inst-card-title">{{ item.title }}</h3>
+          <span class="inst-card-entity">{{ item.entity }}</span>
+          <p class="inst-card-desc">{{ item.description }}</p>
+
+          <div class="inst-card-scope">
+            <span class="scope-mini-label">Atuação:</span>
+            <span>{{ item.scope }}</span>
+          </div>
+
+          <a [href]="item.instagramUrl" target="_blank" rel="noopener noreferrer" class="inst-external-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+            <span>Ver Publicação Oficial no Instagram ↗</span>
+          </a>
+        </article>
+      }
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 2. BLOCO DEDICADO: AUDIOVISUAL FREELANCER  -->
+  <!-- ========================================== -->
+  <section id="sec-audiovisual" class="section-block">
+    <div class="block-header">
+      <div class="block-badge-tag video-tag">Cinema & 4K</div>
+      <h2 class="block-title">Audiovisual Freelancer</h2>
+      <p class="block-subtitle">
+        Captação 4K, direção de cena e montagem dinâmica para eventos, marcas e agências.
+      </p>
+    </div>
+
+    <div class="video-cards-grid">
+      @for (v of videoProjects; track v.id) {
+        <article class="video-showcase-card">
+          <div class="video-media-box">
+            <video 
+              [src]="v.videoUrl" 
+              [poster]="v.posterUrl"
+              controls 
+              playsinline 
+              preload="metadata"
+              class="video-player-element"
+            ></video>
+          </div>
+
+          <div class="video-info-box">
+            <span class="video-tag-pill">{{ v.tag }}</span>
+            <h3 class="video-card-title">{{ v.title }}</h3>
+            <p class="video-card-desc">{{ v.description }}</p>
+            <span class="video-card-scope">● {{ v.scope }}</span>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 3. BLOCO DEDICADO: SOCIAL PRO & FOTOGRAFIA -->
+  <!-- ========================================== -->
+  <section id="sec-socialpro" class="section-block">
+    <div class="block-header">
+      <div class="block-badge-tag photo-tag">Galeria Autoral</div>
+      <h2 class="block-title">Social PRO & Cobertura Fotográfica</h2>
+      <p class="block-subtitle">
+        Ensaios infantis, celebrações litúrgicas, coberturas de eventos e sessões de família ao ar livre.
+      </p>
+    </div>
+
+    <!-- GRELHA PURAMENTE VISUAL DAS 26 FOTOS -->
+    <div class="photo-masonry-grid">
+      @for (photo of displayedPhotos(); track photo.id) {
+        <article class="photo-card" (click)="openPhotoModal(photo)">
+          <div class="photo-wrapper">
+            <img [src]="photo.imageUrl" [alt]="photo.title" class="photo-img" loading="lazy" />
+            <div class="photo-overlay">
+              <span class="photo-cat-badge">{{ photo.category }}</span>
+              <h3 class="photo-overlay-title">{{ photo.title }}</h3>
+              <span class="photo-overlay-cta">Ver foto ampliada ↗</span>
             </div>
-            <h3 class="card-title">{{ item.title }}</h3>
-            <p class="card-desc">{{ item.description }}</p>
           </div>
         </article>
       }
     </div>
 
     <!-- BOTÃO CARREGAR MAIS -->
-    @if (visibleCount() < filteredItems().length) {
+    @if (visiblePhotosCount() < photoGallery.length) {
       <div class="load-more-container">
-        <button type="button" class="load-more-btn" (click)="loadMore()">
-          <span>Carregar mais trabalhos ({{ filteredItems().length - visibleCount() }})</span>
+        <button type="button" class="load-more-btn" (click)="loadMorePhotos()">
+          <span>Carregar mais trabalhos ({{ photoGallery.length - visiblePhotosCount() }})</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 5v14M5 12l7 7 7-7"/>
           </svg>
@@ -257,62 +303,24 @@
     }
   </section>
 
-  <!-- MODAL 1: LIGHTBOX COM SUPORTE A VÍDEO OU IMAGEM -->
-  @if (selectedItem(); as item) {
-    <div class="modal-backdrop" (click)="closeLightbox()">
-      <div class="modal-card" [class.video-modal]="item.mediaType === 'video'" (click)="$event.stopPropagation()">
-        <button class="modal-close-btn" (click)="closeLightbox()" aria-label="Fechar">✕</button>
+  <!-- MODAL DE VISUALIZAÇÃO DE FOTO -->
+  @if (selectedPhoto(); as p) {
+    <div class="modal-backdrop" (click)="closePhotoModal()">
+      <div class="modal-card" (click)="$event.stopPropagation()">
+        <button class="modal-close-btn" (click)="closePhotoModal()" aria-label="Fechar">✕</button>
 
-        @if (item.mediaType === 'video' && item.videoUrl) {
-          <div class="modal-media-wrapper video-container">
-            <video 
-              [src]="item.videoUrl" 
-              controls 
-              autoplay 
-              playsinline 
-              loop
-              muted
-              class="modal-video-element"
-            ></video>
-          </div>
-        } @else if (item.imageUrl) {
-          <div class="modal-media-wrapper">
-            <img [src]="item.imageUrl" [alt]="item.title" class="modal-media" />
-          </div>
-        }
+        <div class="modal-media-wrapper">
+          <img [src]="p.imageUrl" [alt]="p.title" class="modal-media" />
+        </div>
 
         <div class="modal-body">
-          <div class="modal-badge-row">
-            <span class="modal-badge">{{ item.tag }}</span>
-            @if (item.highlightBadge) {
-              <span class="modal-highlight-badge">★ {{ item.highlightBadge }}</span>
-            }
-          </div>
-
-          <h2 class="modal-title">{{ item.title }}</h2>
-          <p class="modal-desc">{{ item.description }}</p>
-
-          @if (item.scope) {
-            <div class="modal-scope-box">
-              <span class="scope-label">Âmbito do Trabalho:</span>
-              <span class="scope-value">{{ item.scope }}</span>
-            </div>
-          }
-
-          @if (item.instagramUrl) {
-            <a [href]="item.instagramUrl" target="_blank" rel="noopener noreferrer" class="instagram-post-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-              </svg>
-              <span>Ver Publicação Original no Instagram ↗</span>
-            </a>
-          }
+          <span class="modal-badge">{{ p.category }}</span>
+          <h2 class="modal-title">{{ p.title }}</h2>
+          <p class="modal-desc">{{ p.description }}</p>
 
           <div class="modal-actions">
-            <button class="modal-cta-btn" (click)="askAboutProject(item)">
-              <span>Quero uma proposta semelhante</span>
+            <button class="modal-cta-btn" (click)="askAboutPhoto(p)">
+              <span>Quero uma cobertura com este padrão</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
@@ -323,7 +331,7 @@
     </div>
   }
 
-  <!-- MODAL 2: ASSISTENTE DE ORÇAMENTO INTERATIVO -->
+  <!-- MODAL DE ORÇAMENTO INTERATIVO -->
   @if (isQuoteModalOpen()) {
     <div class="modal-backdrop" (click)="closeQuoteModal()">
       <div class="modal-card quote-modal" (click)="$event.stopPropagation()">
@@ -340,10 +348,7 @@
             <span class="quote-group-title">1. Que serviço procura contratar?</span>
             <div class="quote-options-list">
               @for (opt of quoteOptions; track opt.id) {
-                <label 
-                  class="quote-option-item" 
-                  [class.selected]="selectedServices().includes(opt.label)"
-                >
+                <label class="quote-option-item" [class.selected]="selectedServices().includes(opt.label)">
                   <input 
                     type="checkbox" 
                     [checked]="selectedServices().includes(opt.label)" 
